@@ -4,7 +4,7 @@
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
-# Provisioning script
+# Provisioning script for a Ubuntu machine
 $PROVISION_SCRIPT = <<SCRIPT
   # Install Go
   sudo apt-get update
@@ -14,12 +14,13 @@ $PROVISION_SCRIPT = <<SCRIPT
   sudo mkdir -p /opt/gopath
   sudo chown -R vagrant:vagrant /opt/
 
-  :> /tmp/gopath.sh
-  echo 'export GOPATH="/opt/gopath"'                        >> /etc/profile.d/gopath.sh
+  echo 'export GOPATH="/opt/gopath"'                        >  /etc/profile.d/gopath.sh
   echo 'export PATH="/opt/gopath/bin:\$GOPATH/bin:\$PATH"'  >> /etc/profile.d/gopath.sh
   sudo chmod 0755 /etc/profile.d/gopath.sh
 
 SCRIPT
+
+#######################################################################
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "shell", inline: $PROVISION_SCRIPT
